@@ -104,7 +104,17 @@ namespace FirstTask
             _stopwatch.Restart();
             for (int i = 0; i < secondArrayList.Count; i++)
             {
-                if ((int)secondArrayList[i] == value)
+                // TODO: bad idea to do conversions like this
+                // TODO: what if in ArrayList will be objects of another type or null object
+                // TODO: Before
+                //if ((int)secondArrayList[i] == value)
+                //{
+                //    indexes.Add(i);
+                //}
+
+                // TODO: After
+                var number = Convert.ToInt32(secondArrayList[i]);
+                if (number == value)
                 {
                     indexes.Add(i);
                 }
