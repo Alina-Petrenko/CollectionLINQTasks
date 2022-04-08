@@ -14,17 +14,17 @@ namespace FirstTask
         /// <summary>
         /// Exception List
         /// </summary>
-        private List<Exception> _exceptionList { get; init; } = new List<Exception>();
+        private List<Exception> ExceptionList { get; init; } = new();
 
         /// <summary>
         /// Stopwatch
         /// </summary>
-        private Stopwatch _stopwatch { get; set; } = new Stopwatch();
+        private Stopwatch Stopwatch { get; } = new();
 
         /// <summary>
         /// Random object
         /// </summary>
-        private Random _random { get; set; } = new Random();
+        private Random Random { get; } = new();
         #endregion
 
         #region Public Methods
@@ -34,13 +34,13 @@ namespace FirstTask
         public void FillingInOneThousandTwentyFour()
         {
             List<Exception> newExceptionList = new List<Exception>();
-            _stopwatch.Restart();
+            Stopwatch.Restart();
             for (int i = 0; i < 1024; i++)
             {
-                newExceptionList.Add(new Exception ((_random.Next(1, 1025)).ToString()));
+                newExceptionList.Add(new Exception((Random.Next(1, 1025)).ToString()));
             }
-            _stopwatch.Stop();
-            Console.WriteLine($"Collection type: {newExceptionList.GetType()} | Count: {newExceptionList.Count} | Capacity: {newExceptionList.Capacity} | Ticks: {_stopwatch.ElapsedTicks}");
+            Stopwatch.Stop();
+            ResultOutput(newExceptionList);
         }
 
         /// <summary>
@@ -48,31 +48,33 @@ namespace FirstTask
         /// </summary>
         public void FillingWithTenThousand()
         {
-            _stopwatch.Restart();
-            for (int i = 0; i < 10000; i++)
+            if (ExceptionList.Count == 0)
             {
-                _exceptionList.Add(new Exception((_random.Next(1, 10001)).ToString()));
+                Stopwatch.Restart();
+                for (int i = 0; i < 10000; i++)
+                {
+                    ExceptionList.Add(new Exception((Random.Next(1, 10001)).ToString()));
+                }
+                Stopwatch.Stop();
             }
-            _stopwatch.Stop();
-            Console.WriteLine($"Collection type: {_exceptionList.GetType()} | Count: {_exceptionList.Count} | Capacity: {_exceptionList.Capacity} | Ticks: {_stopwatch.ElapsedTicks}");
+            ResultOutput(ExceptionList);
         }
 
         /// <summary>
         /// Appends one list to the end of another
         /// </summary>
-        public void ListAddRange()
+        public void ListAddRange(int count)
         {
-            List<Exception> secondExceptionList = new List<Exception>();
-            secondExceptionList.AddRange(_exceptionList);
+            List<Exception> secondExceptionList = new List<Exception>(ExceptionList);
             var newExceptionList = new List<Exception>();
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < count; i++)
             {
-                newExceptionList.Add(new Exception((_random.Next(1, 10001)).ToString()));
+                newExceptionList.Add(new Exception((Random.Next(1, 10001)).ToString()));
             }
-            _stopwatch.Restart();
+            Stopwatch.Restart();
             secondExceptionList.AddRange(newExceptionList);
-            _stopwatch.Stop();
-            Console.WriteLine($"Collection type: {secondExceptionList.GetType()} | Count: {secondExceptionList.Count} | Capacity: {secondExceptionList.Capacity} | Ticks: {_stopwatch.ElapsedTicks}");
+            Stopwatch.Stop();
+            ResultOutput(secondExceptionList);
             secondExceptionList.Clear();
         }
 
@@ -81,13 +83,12 @@ namespace FirstTask
         /// </summary>
         public void Remove()
         {
-            List<Exception> secondExceptionList = new List<Exception>();
-            secondExceptionList.AddRange(_exceptionList);
+            List<Exception> secondExceptionList = new List<Exception>(ExceptionList);
             var middle = secondExceptionList.Count / 2;
-            _stopwatch.Restart();
+            Stopwatch.Restart();
             secondExceptionList.RemoveAt(middle - 1);
-            _stopwatch.Stop();
-            Console.WriteLine($"Collection type: {secondExceptionList.GetType()} | Count: {secondExceptionList.Count} | Capacity: {secondExceptionList.Capacity} | Ticks: {_stopwatch.ElapsedTicks}");
+            Stopwatch.Stop();
+            ResultOutput(secondExceptionList);
             secondExceptionList.Clear();
         }
 
@@ -98,10 +99,9 @@ namespace FirstTask
         {
             var indexes = new List<int>();
             var stringBuilder = new StringBuilder();
-            var value = new Exception((_random.Next(1, 10001)).ToString());
-            List<Exception> secondExceptionList = new List<Exception>();
-            secondExceptionList.AddRange(_exceptionList);
-            _stopwatch.Restart();
+            var value = new Exception((Random.Next(1, 10001)).ToString());
+            var secondExceptionList = new List<Exception>(ExceptionList);
+            Stopwatch.Restart();
             for (int i = 0; i < secondExceptionList.Count; i++)
             {
                 if (secondExceptionList[i] == value)
@@ -109,7 +109,7 @@ namespace FirstTask
                     indexes.Add(i);
                 }
             }
-            _stopwatch.Stop();
+            Stopwatch.Stop();
             if (indexes.Count == 0)
             {
                 Console.WriteLine("There is no such value in the list");
@@ -120,10 +120,22 @@ namespace FirstTask
                 {
                     stringBuilder.Append($"{index} ");
                 }
-                Console.WriteLine($"Collection type: {secondExceptionList.GetType()} | Count: {secondExceptionList.Count} | Capacity: {secondExceptionList.Capacity} | Ticks: {_stopwatch.ElapsedTicks} | Value: {value} | Indexes: {stringBuilder}");
+                stringBuilder.Remove(stringBuilder.Length - 3, 2);
+                Console.WriteLine($"Collection type: {secondExceptionList.GetType()} | Count: {secondExceptionList.Count} | Capacity: {secondExceptionList.Capacity} | Ticks: {Stopwatch.ElapsedTicks} | Value: {value} | Indexes: {stringBuilder}");
                 secondExceptionList.Clear();
             }
             secondExceptionList.Clear();
+        }
+        #endregion
+
+        #region Private Methods
+        /// <summary>
+        /// Writes result to console
+        /// </summary>
+        /// <param name="exceptionList">Exception List</param>
+        private void ResultOutput(List<Exception> exceptionList)
+        {
+            Console.WriteLine($"Collection type: {exceptionList.GetType()} | Count: {exceptionList.Count} | Capacity: {exceptionList.Capacity} | Ticks: {Stopwatch.ElapsedTicks}");
         }
         #endregion
     }

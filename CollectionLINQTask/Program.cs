@@ -12,29 +12,53 @@ namespace FirstTask
         /// </summary>
         static void Main()
         {
-            Console.WriteLine("Decimal array");
             DecimalListOperation decimalListOperation = new DecimalListOperation();
-            decimalListOperation.FillingWithTenThousand();
-            decimalListOperation.FillingInOneThousandTwentyFour();
-            decimalListOperation.ListAddRange();
-            decimalListOperation.Find();
-            decimalListOperation.Remove();
-            Console.WriteLine("");
-            Console.WriteLine("Exception array");
             ExceptionListOperation exceptionListOperation = new ExceptionListOperation();
-            exceptionListOperation.FillingWithTenThousand();
-            exceptionListOperation.FillingInOneThousandTwentyFour();
-            exceptionListOperation.ListAddRange();  
-            exceptionListOperation.Find();
-            exceptionListOperation.Remove();
-            Console.WriteLine("");
-            Console.WriteLine("ArrayList");
             ArrayListOperation arrayListOperation = new ArrayListOperation();
+
+            Console.WriteLine("ArrayList and List<decimal> with 10000 values");
             arrayListOperation.FillingWithTenThousand();
+            decimalListOperation.FillingWithTenThousand();
+            Console.WriteLine("");
+            Console.WriteLine("ArrayList and List<decimal> with 1024 values");
             arrayListOperation.FillingInOneThousandTwentyFour();
-            arrayListOperation.ListAddRange();
-            arrayListOperation.Find();
+            decimalListOperation.FillingInOneThousandTwentyFour();
+            Console.WriteLine("");
+            Console.WriteLine("ArrayList and List<Exception> with 10000 values");
+            arrayListOperation.FillingWithTenThousand();
+            exceptionListOperation.FillingWithTenThousand();
+            Console.WriteLine("");
+            Console.WriteLine("ArrayList and List<Exception> with 1024 values");
+            arrayListOperation.FillingInOneThousandTwentyFour();
+            exceptionListOperation.FillingInOneThousandTwentyFour();
+            Console.WriteLine("");
+            Console.WriteLine("Pack/Unpack in ArrayList and List<decimal>");
+            arrayListOperation.ProcessValues();
+            decimalListOperation.ProcessValues();
+            Console.WriteLine("");
+            Console.WriteLine("Insert n-elements in ArrayList and List<decimal>");
+            decimalListOperation.ListAddRange(300);
+            arrayListOperation.ListAddRange(300);
+            Console.WriteLine("");
+            Console.WriteLine("Insert n-elements in ArrayList and List<Exception>");
+            exceptionListOperation.ListAddRange(300);
+            arrayListOperation.ListAddRange(300);
+            Console.WriteLine("");
+            Console.WriteLine("Delete 1 element in ArrayList and List<decimal>");
+            decimalListOperation.Remove();
             arrayListOperation.Remove();
+            Console.WriteLine("");
+            Console.WriteLine("Delete 1 element in ArrayList and List<Exception>");
+            exceptionListOperation.Remove();
+            arrayListOperation.Remove();
+            Console.WriteLine("");
+            Console.WriteLine("Find 1 element in ArrayList and List<decimal>");
+            decimalListOperation.Find();
+            arrayListOperation.Find();
+            Console.WriteLine("");
+            Console.WriteLine("Find 1 element in ArrayList and List<Exception>");
+            exceptionListOperation.Find();
+            arrayListOperation.Find();
         }
     }
 }

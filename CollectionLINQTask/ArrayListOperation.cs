@@ -14,17 +14,17 @@ namespace FirstTask
         /// <summary>
         /// List
         /// </summary>
-        private ArrayList _arrayList { get; init; } = new ArrayList();
-        
+        private ArrayList ArrayList { get; init; } = new();
+
         /// <summary>
         /// Stopwatch
         /// </summary>
-        private Stopwatch _stopwatch { get; set; } = new Stopwatch();
+        private Stopwatch Stopwatch { get; } = new();
 
         /// <summary>
         /// Random object
         /// </summary>
-        private Random _random { get; set; } = new Random();
+        private Random Random { get; } = new();
         #endregion
 
         #region Public Methods
@@ -34,13 +34,14 @@ namespace FirstTask
         public void FillingInOneThousandTwentyFour()
         {
             ArrayList newArrayList = new ArrayList();
-            _stopwatch.Restart();
+            Stopwatch.Restart();
             for (int i = 0; i < 1024; i++)
             {
-                newArrayList.Add(_random.Next(1, 1025));
+                newArrayList.Add(Random.Next(1, 1025));
             }
-            _stopwatch.Stop();
-            Console.WriteLine($"Collection type: {newArrayList.GetType()} | Count: {newArrayList.Count} | Capacity: {newArrayList.Capacity} | Ticks: {_stopwatch.ElapsedTicks}");
+            Stopwatch.Stop();
+
+            ResultOutput(newArrayList);
         }
 
         /// <summary>
@@ -48,31 +49,33 @@ namespace FirstTask
         /// </summary>
         public void FillingWithTenThousand()
         {
-            _stopwatch.Restart();
-            for (int i = 0; i < 10000; i++)
+            if (ArrayList.Count == 0)
             {
-                _arrayList.Add(_random.Next(1, 10001));
+                Stopwatch.Restart();
+                for (int i = 0; i < 10000; i++)
+                {
+                    ArrayList.Add(Random.Next(1, 10001));
+                }
+                Stopwatch.Stop();
             }
-            _stopwatch.Stop();
-            Console.WriteLine($"Collection type: {_arrayList.GetType()} | Count: {_arrayList.Count} | Capacity: {_arrayList.Capacity} | Ticks: {_stopwatch.ElapsedTicks}");
+            ResultOutput(ArrayList);
         }
 
         /// <summary>
         /// Appends one list to the end of another
         /// </summary>
-        public void ListAddRange()
+        public void ListAddRange(int count)
         {
-            ArrayList secondArrayList = new ArrayList();
-            secondArrayList.AddRange(_arrayList);
+            ArrayList secondArrayList = new ArrayList(ArrayList);
             var newArrayListList = new ArrayList();
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < count; i++)
             {
-                newArrayListList.Add((_random.Next(1, 10001)));
+                newArrayListList.Add((Random.Next(1, 10001)));
             }
-            _stopwatch.Restart();
+            Stopwatch.Restart();
             secondArrayList.AddRange(newArrayListList);
-            _stopwatch.Stop();
-            Console.WriteLine($"Collection type: {secondArrayList.GetType()} | Count: {secondArrayList.Count} | Capacity: {secondArrayList.Capacity} | Ticks: {_stopwatch.ElapsedTicks}");
+            Stopwatch.Stop();
+            ResultOutput(secondArrayList);
             secondArrayList.Clear();
         }
 
@@ -82,12 +85,12 @@ namespace FirstTask
         public void Remove()
         {
             ArrayList secondArrayList = new ArrayList();
-            secondArrayList.AddRange(_arrayList);
+            secondArrayList.AddRange(ArrayList);
             var middle = secondArrayList.Count / 2;
-            _stopwatch.Restart();
+            Stopwatch.Restart();
             secondArrayList.RemoveAt(middle - 1);
-            _stopwatch.Stop();
-            Console.WriteLine($"Collection type: {secondArrayList.GetType()} | Count: {secondArrayList.Count} | Capacity: {secondArrayList.Capacity} | Ticks: {_stopwatch.ElapsedTicks}");
+            Stopwatch.Stop();
+            ResultOutput(secondArrayList);
             secondArrayList.Clear();
         }
 
@@ -98,18 +101,18 @@ namespace FirstTask
         {
             var indexes = new ArrayList();
             var stringBuilder = new StringBuilder();
-            var value = (_random.Next(1, 10001));
-            ArrayList secondArrayList = new ArrayList();
-            secondArrayList.AddRange(_arrayList);
-            _stopwatch.Restart();
+            var value = (Random.Next(1, 10001));
+            ArrayList secondArrayList = new ArrayList(ArrayList);
+            Stopwatch.Restart();
             for (int i = 0; i < secondArrayList.Count; i++)
             {
-                if ((int)secondArrayList[i] == value)
+                var number = Convert.ToInt32(secondArrayList[i]);
+                if (number == value)
                 {
                     indexes.Add(i);
                 }
             }
-            _stopwatch.Stop();
+            Stopwatch.Stop();
             if (indexes.Count == 0)
             {
                 Console.WriteLine("There is no such value in the list");
@@ -120,11 +123,42 @@ namespace FirstTask
                 {
                     stringBuilder.Append($"{index} ");
                 }
-                Console.WriteLine($"Collection type: {secondArrayList.GetType()} | Count: {secondArrayList.Count} | Capacity: {secondArrayList.Capacity} | Ticks: {_stopwatch.ElapsedTicks} | Value: {value} | Indexes: {stringBuilder}");
+                stringBuilder.Remove(stringBuilder.Length - 3, 2);
+                Console.WriteLine($"Collection type: {secondArrayList.GetType()} | Count: {secondArrayList.Count} | Capacity: {secondArrayList.Capacity} | Ticks: {Stopwatch.ElapsedTicks} | Value: {value} | Indexes: {stringBuilder}");
                 secondArrayList.Clear();
             }
             secondArrayList.Clear();
         }
+
+        /// <summary>
+        /// Process collection values 
+        /// </summary>
+        public void ProcessValues()
+        {
+            var counter = 0;
+            var numberReceiver = 0m;
+            Stopwatch.Start();
+            foreach (var number in ArrayList)
+            {
+                numberReceiver = Convert.ToDecimal(number);
+                counter++;
+            }
+            Stopwatch.Stop();
+            Console.WriteLine($"Processed: {counter} numbers | Last number: {numberReceiver} | Elapsed time: {Stopwatch.ElapsedTicks}");
+        }
+        #endregion
+
+        #region Private Methods
+        /// <summary>
+        /// Writes result to console
+        /// </summary>
+        /// <param name="arrayList">ArrayList List</param>
+        private void ResultOutput(ArrayList arrayList)
+        {
+            Console.WriteLine($"Collection type: {arrayList.GetType()} | Count: {arrayList.Count} | Capacity: {arrayList.Capacity} | Ticks: {Stopwatch.ElapsedTicks}");
+        }
         #endregion
     }
+
 }
+
