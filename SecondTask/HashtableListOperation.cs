@@ -27,11 +27,14 @@ namespace SecondTask
         #endregion
 
         #region Public Methods
+
+        // TODO: Before
+        // TODO: too much nesting using if 
         /// <summary>
         /// Fills a list with 10000 elements
         /// </summary>
         /// <param name="isReferenceType">True - generate objects, false - generate structs</param>
-        public void FillingWithTenThousand(bool isReferenceType = true)
+        public void FillingWithTenThousand2(bool isReferenceType = true)
         {
             if (HashTableList.Count == 0)
             {
@@ -46,6 +49,7 @@ namespace SecondTask
                         {
                             if (counter == 9999 || counter == 9998)
                             {
+                                // TODO: you will create 2 objects with the same Id.
                                 HashTableList.Add(value, new Person(24, "a", 145));
                                 counter++;
                             }
@@ -78,25 +82,46 @@ namespace SecondTask
             ResultOutput(HashTableList);
         }
 
+        // TODO: After
+        /// <summary>
+        /// Fills a list with 10000 elements
+        /// </summary>
+        /// <param name="isReferenceType">True - generate objects, false - generate structs</param>
+        public void FillingWithTenThousand(bool isReferenceType = true)
+        {
+            if (HashTableList.Count != 0)
+            {
+                return;
+            }
+
+            Stopwatch.Restart();
+            this.FillHashTable(isReferenceType);
+            Stopwatch.Stop();
+
+            ResultOutput(HashTableList);
+        }
+
+        // TODO: The idea of the task was to check the time of adding new element into collection
+        // TODO: Before
         /// <summary>
         /// Appends value to the end of list
         /// </summary>
         /// <param name="isReferenceType">True - generate objects, false - generate structs</param>
-        public void ListAdd(bool isReferenceType = true)
+        public void ListAdd2(bool isReferenceType = true)
         {
             Hashtable secondHashtable = new(HashTableList);
-            int counter = 0;
+            var counter = 0;
             if (isReferenceType)
             {
                 Stopwatch.Restart();
                 while (counter < 1)
                 {
-                    int key = Random.Next();
-                    if (!HashTableList.ContainsKey(key))
-                    {
-                        secondHashtable.Add(key, new Person());
-                        counter++;
-                    }
+                    var key = Random.Next();
+                    if (HashTableList.ContainsKey(key)) 
+                        continue;
+
+                    secondHashtable.Add(key, new Person());
+                    counter++;
                 }
                 Stopwatch.Stop();
             }
@@ -105,15 +130,32 @@ namespace SecondTask
                 Stopwatch.Restart();
                 while (counter < 1)
                 {
-                    int key = Random.Next();
-                    if (!HashTableList.ContainsKey(key))
-                    {
-                        secondHashtable.Add(key, Random.Next(1, 10001));
-                        counter++;
-                    }
+                    var key = Random.Next();
+                    if (HashTableList.ContainsKey(key)) 
+                        continue;
+
+                    secondHashtable.Add(key, Random.Next(1, 10001));
+                    counter++;
                 }
                 Stopwatch.Stop();
             }
+            ResultOutput(secondHashtable);
+            secondHashtable.Clear();
+        }
+
+        // TODO: After
+        /// <summary>
+        /// Appends value to the end of list
+        /// </summary>
+        /// <param name="isReferenceType">True - generate objects, false - generate structs</param>
+        public void ListAdd(bool isReferenceType = true)
+        {
+            Hashtable secondHashtable = new(HashTableList);
+
+            Stopwatch.Restart();
+            secondHashtable.Add("Added", isReferenceType ? new Person() : Random.Next());
+            Stopwatch.Stop();
+            
             ResultOutput(secondHashtable);
             secondHashtable.Clear();
         }
@@ -140,9 +182,9 @@ namespace SecondTask
         /// </summary>
         /// <param name="isReferenceType">True - generate objects, false - generate structs</param>
         public void Find(bool isReferenceType = true)
-        {         
+        {
             var secondHashtable = new Hashtable(HashTableList);
-            string index = String.Empty;
+            var index = string.Empty;
             if (isReferenceType)
             {
                 var valueRef = new Person(24, "a", 145);
@@ -153,13 +195,9 @@ namespace SecondTask
                 else
                 {
                     Stopwatch.Restart();
-                    foreach (DictionaryEntry item in secondHashtable)
+                    foreach (var item in secondHashtable.Cast<DictionaryEntry>().Where(item => valueRef.Equals((Person)(item.Value))))
                     {
-                        if (valueRef.Equals((Person)(item.Value)))
-                        {
-                            index = item.Key.ToString();
-                            continue;
-                        }
+                        index = item.Key.ToString();
                     }
                     Stopwatch.Stop();
                     Console.WriteLine($"Collection type: {secondHashtable.GetType()} | Count: {secondHashtable.Count} | Ticks: {Stopwatch.ElapsedTicks} | Value: {valueRef.Name}, {valueRef.Age} | Index: {index}");
@@ -167,7 +205,7 @@ namespace SecondTask
             }
             else
             {
-                var value = (Random.Next(1, 10001));
+                var value = Random.Next(1, 10001);
                 if (!secondHashtable.ContainsValue(value))
                 {
                     Console.WriteLine("There is no such value in the list");
@@ -175,16 +213,12 @@ namespace SecondTask
                 else
                 {
                     Stopwatch.Restart();
-                    foreach (DictionaryEntry item in secondHashtable)
+                    foreach (var item in secondHashtable.Cast<DictionaryEntry>().Where(item => value == Convert.ToInt32(item.Value)))
                     {
-                        if (value == Convert.ToInt32(item.Value))
-                        {
-                            index = item.Key.ToString();
-                            continue;
-                        }
+                        index = item.Key.ToString();
                     }
                     Stopwatch.Stop();
-                    Console.WriteLine($"Collection type: {secondHashtable.GetType()} | Count: {secondHashtable.Count} | Ticks: {Stopwatch.ElapsedTicks} | Value: {value} | Index: {index}");              
+                    Console.WriteLine($"Collection type: {secondHashtable.GetType()} | Count: {secondHashtable.Count} | Ticks: {Stopwatch.ElapsedTicks} | Value: {value} | Index: {index}");
                 }
             }
             secondHashtable.Clear();
@@ -261,9 +295,26 @@ namespace SecondTask
         /// Writes result to console
         /// </summary>
         /// <param name="hashtable">Hashtable List</param>
-        private void ResultOutput(Hashtable hashtable)
+        private void ResultOutput(ICollection hashtable)
         {
             Console.WriteLine($"Collection type: {hashtable.GetType()} | Count: {hashtable.Count} | Ticks: {Stopwatch.ElapsedTicks}");
+        }
+
+        /// <summary>
+        /// Fills <see cref="Hashtable"/> type by random values
+        /// </summary>
+        /// <param name="isReferenceType">true - use <see cref="Person"/> object for value, false - use value type for value</param>
+        private void FillHashTable(bool isReferenceType = false)
+        {
+            var counter = 0;
+            while (counter < 10000)
+            {
+                if (HashTableList.ContainsKey(counter))
+                    continue;
+
+                HashTableList.Add(counter, isReferenceType ? new Person(24, $"Mike{counter}", counter) : counter);
+                counter++;
+            }
         }
         #endregion
     }

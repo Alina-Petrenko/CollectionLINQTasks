@@ -12,9 +12,10 @@ namespace SecondTask
         /// </summary>
         static void Main()
         {
-            HashtableListOperation hashtableListOperation = new HashtableListOperation();
-            DictionaryReferenceTypeListOperation dictionaryReferenceTypeListOperetion = new DictionaryReferenceTypeListOperation();
-            DictionaryValueTypeListOperation dictionaryValueTypeListOperation = new DictionaryValueTypeListOperation();
+            // TODO: use var in every place where it possible.
+            var hashtableListOperation = new HashtableListOperation();
+            var referenceTypeListOperation = new DictionaryReferenceTypeListOperation();
+            var valueTypeListOperation = new DictionaryValueTypeListOperation();
 
             Console.WriteLine("Hastable reference type");
             Console.WriteLine("____________________________________");
@@ -45,28 +46,28 @@ namespace SecondTask
 
             Console.WriteLine("Dictionary value type");
             Console.WriteLine("____________________________________");
-            dictionaryValueTypeListOperation.FillingWithTenThousand();
+            valueTypeListOperation.FillingWithTenThousand();
             Console.WriteLine("Dictionary value type finds first index");
-            dictionaryValueTypeListOperation.Find();
+            valueTypeListOperation.Find();
             Console.WriteLine("Dictionary value type finds all indexes");
-            dictionaryValueTypeListOperation.FindAll();
+            valueTypeListOperation.FindAll();
             Console.WriteLine("Dictionary value type add element");
-            dictionaryValueTypeListOperation.ListAdd();
+            valueTypeListOperation.ListAdd();
             Console.WriteLine("Dictionary value type remove element");
-            dictionaryValueTypeListOperation.Remove();
+            valueTypeListOperation.Remove();
             Console.WriteLine("");
 
             Console.WriteLine("Dictionary reference type");
             Console.WriteLine("____________________________________");
-            dictionaryReferenceTypeListOperetion.FillingWithTenThousand();
+            referenceTypeListOperation.FillingWithTenThousand();
             Console.WriteLine("Dictionary reference type finds first index");
-            dictionaryReferenceTypeListOperetion.Find();
+            referenceTypeListOperation.Find();
             Console.WriteLine("Dictionary reference type finds all indexes");
-            dictionaryReferenceTypeListOperetion.FindAll();
+            referenceTypeListOperation.FindAll();
             Console.WriteLine("Dictionary reference type add element");
-            dictionaryReferenceTypeListOperetion.ListAdd();
+            referenceTypeListOperation.ListAdd();
             Console.WriteLine("Dictionary reference type remove element");
-            dictionaryReferenceTypeListOperetion.Remove();
+            referenceTypeListOperation.Remove();
             Console.WriteLine("");          
         }
     }
