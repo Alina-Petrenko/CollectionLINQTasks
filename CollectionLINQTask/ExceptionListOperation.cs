@@ -51,9 +51,9 @@ namespace FirstTask
             if (ExceptionList.Count == 0)
             {
                 Stopwatch.Restart();
-                for (int i = 0; i < 10000; i++)
+                for (var i = 0; i < 10000; i++)
                 {
-                    ExceptionList.Add(new Exception((Random.Next(1, 10001)).ToString()));
+                    ExceptionList.Add(new Exception(Random.Next(1, 10001).ToString()));
                 }
                 Stopwatch.Stop();
             }

@@ -31,13 +31,14 @@ namespace FirstTask
         /// <summary>
         /// Fills a list with 1024 elements
         /// </summary>
-        public void FillingInOneThousandTwentyFour()
+        /// <param name="isObject">True - generate objects, false - generate structs</param>
+        public void FillingInOneThousandTwentyFour(bool isObject = true)
         {
             ArrayList newArrayList = new ArrayList();
             Stopwatch.Restart();
-            for (int i = 0; i < 1024; i++)
+            for (var i = 0; i < 1024; i++)
             {
-                newArrayList.Add(Random.Next(1, 1025));
+                newArrayList.Add(isObject ? new Exception(Random.Next(1, 1025).ToString()) : Random.Next(1, 1025));
             }
             Stopwatch.Stop();
 
@@ -47,14 +48,15 @@ namespace FirstTask
         /// <summary>
         /// Fills a list with 10000 elements
         /// </summary>
-        public void FillingWithTenThousand()
+        /// <param name="isObject">True - generate objects, false - generate structs</param>
+        public void FillingWithTenThousand(bool isObject = true)
         {
             if (ArrayList.Count == 0)
             {
                 Stopwatch.Restart();
-                for (int i = 0; i < 10000; i++)
+                for (var i = 0; i < 10000; i++)
                 {
-                    ArrayList.Add(Random.Next(1, 10001));
+                    ArrayList.Add(isObject ? new Exception(Random.Next(1, 10001).ToString()) : Random.Next(1, 10001));
                 }
                 Stopwatch.Stop();
             }

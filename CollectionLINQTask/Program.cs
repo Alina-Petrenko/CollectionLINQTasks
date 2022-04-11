@@ -17,12 +17,14 @@ namespace FirstTask
             ArrayListOperation arrayListOperation = new ArrayListOperation();
 
             Console.WriteLine("ArrayList and List<decimal> with 10000 values");
-            arrayListOperation.FillingWithTenThousand();
             decimalListOperation.FillingWithTenThousand();
+            arrayListOperation.FillingWithTenThousand(false);
+
             Console.WriteLine("");
             Console.WriteLine("ArrayList and List<decimal> with 1024 values");
-            arrayListOperation.FillingInOneThousandTwentyFour();
             decimalListOperation.FillingInOneThousandTwentyFour();
+            arrayListOperation.FillingInOneThousandTwentyFour(false);
+
             Console.WriteLine("");
             Console.WriteLine("ArrayList and List<Exception> with 10000 values");
             arrayListOperation.FillingWithTenThousand();
