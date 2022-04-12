@@ -11,15 +11,19 @@ namespace FourthTask
     {
         #region Public Methods
         /// <summary>
-        /// Gets index of first non-null element in <paramref name="array"/>
+        /// Gets index of first non-zero element in <paramref name="array"/>
         /// </summary>
         /// <param name="array">Array</param>
         /// <returns>Index of first non-null element</returns>
-        public int GetIndexFirstNonNullElement (int [] array)
+        public int GetIndexFirstNonZeroElement(int[] array)
         {
-            return Array
-                .IndexOf(array, (array.Where(item => item != 0)
-                .First()));
+            // TODO: Before
+            //return Array
+            //    .IndexOf(array, (array.Where(item => item != 0)
+            //    .First()));
+
+            // TODO: After
+            return Array.FindIndex(array, item => item != 0);
         }
 
         /// <summary>
@@ -27,7 +31,7 @@ namespace FourthTask
         /// </summary>
         /// <param name="array">Array</param>
         /// <returns>Returns result of multiply</returns>
-        public int[] MultiplyNumbers (int[] array)
+        public int[] MultiplyNumbers(int[] array)
         {
             return array.AsParallel()
                 .Select(item => item * item)
@@ -35,16 +39,23 @@ namespace FourthTask
         }
 
         /// <summary>
-        /// Calculates the number of matching words in a string
+        /// Calculates count of each word in a strings and sort them by count
         /// </summary>
         /// <param name="array">Array</param>
-        /// <returns>Returns an array of tuples with the values word - number of repetitions</returns>
-        public (string word, int count)[] FindWordCount(string[] array)
+        /// <returns>Returns an array of tuples with key - word, value - count of repetitions</returns>
+        public Dictionary<string, int> GetWordsCount(string[] array)
         {
+            // TODO: Before
+            //return array.GroupBy(item => item, StringComparer.OrdinalIgnoreCase)
+            //    .Select(g => (g.Key, g.Count()))
+            //    .OrderBy(item => item.Key)
+            //    .ToArray();
+
+            // TODO: After
             return array.GroupBy(item => item, StringComparer.OrdinalIgnoreCase)
-                .Select(g => (g.Key, g.Count()))
-                .OrderBy(item => item.Key)
-                .ToArray();
+                .Select(g => (g.Key, Count: g.Count()))
+                .OrderBy(item => item.Count)
+                .ToDictionary(k => k.Key, v => v.Count);
         }
 
         /// <summary>
@@ -53,18 +64,25 @@ namespace FourthTask
         /// <param name="firstArray">First int array</param>
         /// <param name="secondArray">Second int array</param>
         /// <returns>Returns a dictionary where the key is a number from the arrays and the value is the number of repetitions of this number in these arrays</returns>
-        public Dictionary<int,int> Dictionary (int [] firstArray, int [] secondArray)
+        public Dictionary<int, int> GetWordsCountInArrays(int[] firstArray, int[] secondArray)
         {
+            // TODO: Before
+            //return firstArray.Concat(secondArray)
+            //    .GroupBy(item => item)
+            //    .OrderBy(item => item.Key)
+            //    .Select(group => new
+            //    {
+            //        Key = group.Key,
+            //        Value = group.Count()
+            //    })
+            //    .ToDictionary(key => key.Key, value => value.Value);
+
+            // TODO: After
             return firstArray.Concat(secondArray)
                 .GroupBy(item => item)
                 .OrderBy(item => item.Key)
-                .Select(group => new
-                {
-                    Key = group.Key,
-                    Value = group.Count()
-                })
-                .ToDictionary(key => key.Key, value => value.Value);
+                .ToDictionary(key => key.Key, value => value.Count());
         }
-#endregion
+        #endregion
     }
 }
